@@ -3,19 +3,21 @@ import DropDown from "./DropDown";
 
 
 const Card = (props) => {
-    const {task, open, completed, id, removeCard, onClickCheck, openSettings } = props
+    const [active, setActive] = React.useState()
+    const {Author, message, completed, id, removeCard, onClickCheck } = props
     return (
         <div>
             <div>
+                {id}
+                {Author}: {message}
+                <a onClick={()=>setActive(!active)}>↓</a>
                 {completed
                     ? ""
                     :"."
                 }
-                {task}
-                <button onClick={()=>openSettings(id)}>></button>
-                {!open
+                {!active
                     ?""
-                    :<DropDown removeCard={removeCard} open={open} id={id} completed={completed} onClickCheck={onClickCheck}/>
+                    :<DropDown removeCard={removeCard}  id={id} completed={completed} onClickCheck={onClickCheck} active={active} setActive={setActive}/>
                 }
             </div>
         </div>

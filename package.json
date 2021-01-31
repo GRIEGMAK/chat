@@ -9,6 +9,7 @@
     "mobx": "^6.1.0",
     "mobx-react": "^7.1.0",
     "mobx-react-lite": "^3.2.0",
+    "node-sass": "4.14.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",

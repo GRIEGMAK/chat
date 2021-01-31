@@ -4,29 +4,71 @@ import {makeAutoObservable} from "mobx";
 class wordCommunication {
     card = [];
     index = 0;
+    recording=0
+    oldMessage=[]
+    newMessage=[]
+    allNewMessage=[]
     constructor() {
         makeAutoObservable(this)
     }
-    addNewCard = (newElement) => {
-        if(newElement.current.value !== "") {
-            this.card.push({
-                id: this.index + 1,
-                task: newElement.current.value,
-                completed: false,
-                open:false
-            })
-            this.index = this.index + 1
-        }
-        newElement.current.value = ''
+    readNewMessages= () => {
+        this.allNewMessage.push(
+            ...this.newMessage
+        )
     }
+    readMessage = () => {
+        this.card.clear()
+        this.card.push(
+            ...this.oldMessage,
+            ...this.allNewMessage
+        )
+    }
+    setMessage = async () => {
+        let api_url = await fetch(`/initialStorage/wordCommunication.json`);
+        this.oldMessage = await api_url.json()
+        this.card.push(
+            ...this.oldMessage
+        )
+    }
+    choiceInd = () => {
+        this.index = this.index + 1
+        this.card.map(el => el.id === this.index ? this.recording=this.index : "")
+        if(this.recording === this.index)
+        {
+            this.choiceInd()
+        }
+    }
+    addNewCard = (newElement) => {
+        if(newElement.current.value !== ""){
+            this.choiceInd()
+            this.newMessage.push({
+                Author: "Admin",
+                id: this.index,
+                message: newElement.current.value,
+                completed: false,
+            })
+            this.readNewMessages()
+            this.readMessage()
+            this.newMessage.clear()
+            newElement.current.value = ''
+        }
+    }
+    /*    copyMessage = ( newElement)=>{
+            newElement.current.value = this.card.
+        }
+        refactorMessage = (id)=> {
+            this.card.map =
+        }*/
     removeCard = (id) => {
-        this.card = this.card.filter(el => el.id !== id)
+        this.oldMessage = this.oldMessage.filter(el => el.id !== id)
+        this.allNewMessage = this.allNewMessage.filter(el => el.id !== id)
+        this.readMessage()
+
     }
     onClickCheck = (id) => {
-        this.card = this.card.map(el => el.id === id ? {...el, completed: !el.completed} : el)
-    }
-    openSettings = (id) => {
-        this.card = this.card.map(el => el.id === id ? {...el, open: !el.open} : el)
+        this.oldMessage = this.oldMessage.map(el => el.id === id ? {...el, completed: !el.completed} : el)
+        this.allNewMessage = this.allNewMessage.map(el => el.id === id ? {...el, completed: !el.completed} : el)
+        this.readMessage()
     }
 }
 

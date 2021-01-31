@@ -5,11 +5,11 @@ import Card from "./Card";
 
 const MainPart = (props) => {
     const { store } = props
-    const { addNewCard, card, onClickCheck, removeCard,  openSettings } = store
+    const { addNewCard, card, onClickCheck, removeCard } = store
     let getCardArray = undefined
     if (card) {
-        getCardArray = card.map((c, i) => <Card key={i} id={i + 1} {...c} removeCard={removeCard}
-                                                     onClickCheck={onClickCheck} openSettings={openSettings}/>)
+        getCardArray = card.map((c, i) => <Card key={i} {...c} removeCard={removeCard}
+                                                     onClickCheck={onClickCheck} />)
     }
     return (
         <div>

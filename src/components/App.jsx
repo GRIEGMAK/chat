@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MainPart from "./MainPart";
 import Header from "./Header";
 import store from '../store/Hlam'
 import wordCommunication from "../store/wordCommunication";
 import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom";
+import {observer} from "mobx-react";
 
 const App = () => {
     const pages=[
@@ -11,6 +12,11 @@ const App = () => {
         {page: "Всякий хлам", link: "/hlam"},
         {page: "Открыть все", link: "/all"}
     ]
+    const messages = () => {
+        store.setMessage()
+        wordCommunication.setMessage()
+    }
+    useEffect(()=>messages())
     return (
         <BrowserRouter>
             <Redirect to="/" from="/first" />
@@ -34,4 +40,4 @@ const App = () => {
     )
 };
 
-export default App;
+export default observer(App);
