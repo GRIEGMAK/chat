@@ -1,0 +1,5 @@
+{
+  "port": 4000,
+  "jwtSecret": "jwtSecret Phrase Test Server SinglePageApplication",
+  "mongoUri": "mongodb+srv://Grieg:admin@appcluster.ovxx9.mongodb.net/app?retryWrites=true&w=majority"
+}
